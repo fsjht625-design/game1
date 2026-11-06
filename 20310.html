@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小朋友下樓梯：天氣故事篇 | 一頁式展示平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;700;900&display=swap');
+        
+        * {
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Bright Light-Mode Glassmorphism Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-6px) scale(1.02);
+            background: #ffffff;
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 20px 35px -5px rgba(245, 158, 11, 0.15);
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .animate-float { animation: floatSlow 4s ease-in-out infinite; }
+
+        canvas { display: block; touch-action: none; }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-slate-50 via-sky-50/30 to-amber-50/20 text-slate-800 min-h-screen overflow-x-hidden selection:bg-amber-400 selection:text-slate-900">
+
+    <!-- Top Floating Navbar -->
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-5xl glass-card rounded-full px-6 py-3 flex items-center justify-between shadow-lg border border-white">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl animate-float">🌦️</span>
+            <span class="font-black text-lg bg-gradient-to-r from-amber-500 via-orange-500 to-sky-500 bg-clip-text text-transparent">Weather Shaft</span>
+        </div>
+        <div class="hidden md:flex items-center gap-6 text-sm font-extrabold text-slate-600">
+            <a href="#hero" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-house"></i> 首頁</a>
+            <a href="#journey" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-route"></i> 開發歷程</a>
+            <a href="#worlds" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-cloud-sun-rain"></i> 天氣世界</a>
+            <a href="#mechanics" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gamepad"></i> 階梯圖鑑</a>
+            <a href="#play" class="hover:text-amber-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-trophy"></i> 極速試玩</a>
+        </div>
+        <a href="#play" class="px-5 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-extrabold text-sm rounded-full shadow-md hover:shadow-orange-500/20 active:scale-95 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-base"></i> 挑戰 3 倍速
+        </a>
+    </nav>
+
+    <!-- SECTION 1: HERO BANNER -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden">
+        <div class="max-w-4xl w-full text-center relative z-10 flex flex-col items-center">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-amber-300 text-amber-700 text-xs font-black tracking-widest uppercase mb-6 shadow-sm">
+                <span>⚡ 3倍快速挑戰版 x 亮采繪本</span>
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black mb-6 leading-tight tracking-tight text-slate-900">
+                <span class="block">小朋友下樓梯</span>
+                <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-sky-500 bg-clip-text text-transparent">天氣繪本 3X 極速版</span>
+            </h1>
+
+            <p class="text-sm sm:text-lg text-slate-600 max-w-2xl mb-8 leading-relaxed font-bold">
+                樓梯向上逼近的速度快了 <strong class="text-orange-600 font-black">3 倍</strong>！死在哪個天氣區塊，結局就是那個天氣的故事！
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-2xl mb-10">
+                <div class="glass-card rounded-2xl p-4 flex flex-col items-center gap-1 border border-amber-200">
+                    <span class="text-3xl mb-1">⚡</span>
+                    <span class="font-black text-sm text-amber-600">300% 上升速度</span>
+                    <span class="text-[10px] text-slate-400 font-bold">極限反應考驗</span>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex flex-col items-center gap-1 border border-sky-200">
+                    <span class="text-3xl mb-1">🌤️</span>
+                    <span class="font-black text-sm text-sky-600">5 大天氣區域</span>
+                    <span class="text-[10px] text-slate-400 font-bold">晴/陰/雨/雪/星</span>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex flex-col items-center gap-1 border border-indigo-200">
+                    <span class="text-3xl mb-1">📖</span>
+                    <span class="font-black text-sm text-indigo-600">天氣專屬結局</span>
+                    <span class="text-[10px] text-slate-400 font-bold">即時生成繪本</span>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex flex-col items-center gap-1 border border-emerald-200">
+                    <span class="text-3xl mb-1">🎮</span>
+                    <span class="font-black text-sm text-emerald-600">鍵盤/觸控支援</span>
+                    <span class="text-[10px] text-slate-400 font-bold">隨時流暢遊玩</span>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#play" class="px-8 py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-400 hover:to-red-400 text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-orange-500/30 active:scale-95 transition-all flex items-center gap-3">
+                    <i class="fa-solid fa-play text-2xl"></i> 開啟 3 倍速冒險
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: TIMELINE (Light) -->
+    <section id="journey" class="py-16 px-4 max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-amber-500 text-3xl mb-2 block animate-float"><i class="fa-solid fa-timeline"></i></span>
+            <h2 class="text-3xl sm:text-4xl font-black mb-2 text-slate-900">開發進化歷程</h2>
+            <p class="text-slate-500 text-sm font-bold">經典核心 → 天氣主題 → 死亡專屬故事 → 3倍速度提升</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card glass-card-hover rounded-3xl p-6 flex flex-col items-center text-center">
+                <div class="w-14 h-14 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center text-2xl mb-3 text-amber-600">
+                    💡
+                </div>
+                <span class="text-[10px] font-black text-amber-500 tracking-widest uppercase mb-1">STEP 01</span>
+                <h3 class="text-lg font-black mb-1 text-slate-800">經典核心重構</h3>
+                <p class="text-xs text-slate-500 font-bold">重現經典 NS-SHAFT 下樓梯物理機制與踩踏打擊感。</p>
+            </div>
+
+            <div class="glass-card glass-card-hover rounded-3xl p-6 flex flex-col items-center text-center">
+                <div class="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-300 flex items-center justify-center text-2xl mb-3 text-sky-600">
+                    🌦️
+                </div>
+                <span class="text-[10px] font-black text-sky-500 tracking-widest uppercase mb-1">STEP 02</span>
+                <h3 class="text-lg font-black mb-1 text-slate-800">天氣與繪本結合</h3>
+                <p class="text-xs text-slate-500 font-bold">隨深度變換天氣，並根據死掉瞬間的天氣生成感人結局。</p>
+            </div>
+
+            <div class="glass-card glass-card-hover rounded-3xl p-6 flex flex-col items-center text-center border-2 border-orange-300">
+                <div class="w-14 h-14 rounded-2xl bg-orange-100 border border-orange-300 flex items-center justify-center text-2xl mb-3 text-orange-600">
+                    ⚡
+                </div>
+                <span class="text-[10px] font-black text-orange-500 tracking-widest uppercase mb-1">STEP 03 (NEW)</span>
+                <h3 class="text-lg font-black mb-1 text-slate-800">3 倍上升速度升級</h3>
+                <p class="text-xs text-slate-500 font-bold">因應挑戰要求，將樓梯與尖刺上升推進速度調高為 3 倍！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: DEV JOURNEY TIMELINE (MINIMAL TEXT) -->
+    <section id="journey" class="py-20 px-4 max-w-5xl mx-auto relative">
+        <div class="text-center mb-14">
+            <span class="text-amber-500 text-4xl mb-2 block animate-float"><i class="fa-solid fa-timeline"></i></span>
+            <h2 class="text-3xl sm:text-4xl font-black mb-2 text-slate-900">極簡開發歷程</h2>
+            <p class="text-slate-500 font-bold text-sm">經典遊戲的全新天氣繪本演進</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <!-- Timeline Line -->
+            <div class="hidden md:block absolute top-1/2 left-10 right-10 h-1 bg-gradient-to-r from-amber-300 via-sky-300 to-indigo-300 -translate-y-1/2 -z-10"></div>
+
+            <!-- Step 1 -->
+            <div class="light-card light-card-hover rounded-3xl p-6 bg-white flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center text-3xl mb-3 text-amber-500 shadow-sm">
+                    💡
+                </div>
+                <span class="text-[11px] font-black text-amber-500 uppercase tracking-widest mb-1">STEP 01</span>
+                <h3 class="text-xl font-black text-slate-800 mb-1">經典重現</h3>
+                <p class="text-xs text-slate-500 font-bold leading-relaxed">
+                    重構物理跳躍與多樣階梯機制。
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="light-card light-card-hover rounded-3xl p-6 bg-white flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-sky-100 border-2 border-sky-400 flex items-center justify-center text-3xl mb-3 text-sky-500 shadow-sm">
+                    ☁️
+                </div>
+                <span class="text-[11px] font-black text-sky-500 uppercase tracking-widest mb-1">STEP 02</span>
+                <h3 class="text-xl font-black text-slate-800 mb-1">融合天氣</h3>
+                <p class="text-xs text-slate-500 font-bold leading-relaxed">
+                    隨深度切換 ☀️晴 ☁️陰 🌧️雨 ❄️雪 🌌星空。
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="light-card light-card-hover rounded-3xl p-6 bg-white flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-100 border-2 border-indigo-400 flex items-center justify-center text-3xl mb-3 text-indigo-500 shadow-sm">
+                    📖
+                </div>
+                <span class="text-[11px] font-black text-indigo-500 uppercase tracking-widest mb-1">STEP 03</span>
+                <h3 class="text-xl font-black text-slate-800 mb-1">專屬結局</h3>
+                <p class="text-xs text-slate-500 font-bold leading-relaxed">
+                    死在哪個天氣，即解鎖該天氣的故事繪卡。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: 5 WEATHER WORLDS GRID -->
+    <section id="worlds" class="py-20 px-4 bg-slate-100/60 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-3xl mb-1 block">🌤️</span>
+                <h2 class="text-3xl sm:text-4xl font-black mb-2 text-slate-900">5 大天氣世界</h2>
+                <p class="text-slate-500 font-bold text-sm">隨著不斷下樓，進入不同氛圍的天氣主題</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Sunny -->
+                <div class="light-card light-card-hover rounded-3xl p-5 bg-white border-t-4 border-amber-400 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">☀️</span>
+                    <h3 class="text-lg font-black text-amber-600 mb-1">晴天草原</h3>
+                    <span class="text-[10px] font-extrabold px-3 py-1 bg-amber-100 text-amber-700 rounded-full mb-3">B1 - B15</span>
+                    <div class="mt-auto pt-3 border-t border-slate-100 text-[11px] text-amber-800 font-semibold bg-amber-50/50 p-2.5 rounded-xl w-full">
+                        「陽光撫平一切疲憊，帶來溫暖的希望。」
+                    </div>
+                </div>
+
+                <!-- Cloudy -->
+                <div class="light-card light-card-hover rounded-3xl p-5 bg-white border-t-4 border-slate-400 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">☁️</span>
+                    <h3 class="text-lg font-black text-slate-600 mb-1">陰天谷地</h3>
+                    <span class="text-[10px] font-extrabold px-3 py-1 bg-slate-100 text-slate-700 rounded-full mb-3">B16 - B35</span>
+                    <div class="mt-auto pt-3 border-t border-slate-100 text-[11px] text-slate-800 font-semibold bg-slate-50/50 p-2.5 rounded-xl w-full">
+                        「沉靜的雲霧，等待下一次起飛風浪。」
+                    </div>
+                </div>
+
+                <!-- Rainy -->
+                <div class="light-card light-card-hover rounded-3xl p-5 bg-white border-t-4 border-blue-400 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">🌧️</span>
+                    <h3 class="text-lg font-black text-blue-600 mb-1">雨天庇護所</h3>
+                    <span class="text-[10px] font-extrabold px-3 py-1 bg-blue-100 text-blue-700 rounded-full mb-3">B36 - B60</span>
+                    <div class="mt-auto pt-3 border-t border-slate-100 text-[11px] text-blue-900 font-semibold bg-blue-50/50 p-2.5 rounded-xl w-full">
+                        「雨水洗去喧囂，帶來最純淨的滋潤。」
+                    </div>
+                </div>
+
+                <!-- Snowy -->
+                <div class="light-card light-card-hover rounded-3xl p-5 bg-white border-t-4 border-cyan-400 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">❄️</span>
+                    <h3 class="text-lg font-black text-cyan-600 mb-1">雪天極地</h3>
+                    <span class="text-[10px] font-extrabold px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full mb-3">B61 - B90</span>
+                    <div class="mt-auto pt-3 border-t border-slate-100 text-[11px] text-cyan-900 font-semibold bg-cyan-50/50 p-2.5 rounded-xl w-full">
+                        「凍結足蹟，化為永不褪色的水晶。」
+                    </div>
+                </div>
+
+                <!-- Starry -->
+                <div class="light-card light-card-hover rounded-3xl p-5 bg-white border-t-4 border-purple-400 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-2">🌌</span>
+                    <h3 class="text-lg font-black text-purple-600 mb-1">星空宇宙</h3>
+                    <span class="text-[10px] font-extrabold px-3 py-1 bg-purple-100 text-purple-700 rounded-full mb-3">B91+</span>
+                    <div class="mt-auto pt-3 border-t border-slate-100 text-[11px] text-purple-900 font-semibold bg-purple-50/50 p-2.5 rounded-xl w-full">
+                        「星宿閃耀，紀錄勇者的終極篇章。」
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: GAME MECHANICS & STAIRS DICTIONARY -->
+    <section id="mechanics" class="py-20 px-4 max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+            <span class="text-emerald-500 text-3xl mb-1 block"><i class="fa-solid fa-cubes"></i></span>
+            <h2 class="text-3xl sm:text-4xl font-black mb-2 text-slate-900">階梯與道具圖鑑</h2>
+            <p class="text-slate-500 font-bold text-sm">靈活運用階梯特性，挑戰更深的極限</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <!-- Normal -->
+            <div class="light-card rounded-2xl p-4 bg-white flex flex-col items-center text-center">
+                <div class="w-12 h-3 bg-amber-400 rounded-full mb-3 shadow-sm"></div>
+                <h4 class="font-black text-sm text-slate-800">普通階梯</h4>
+                <span class="text-[11px] text-slate-500 font-bold">穩健安全落腳</span>
+            </div>
+
+            <!-- Conveyor -->
+            <div class="light-card rounded-2xl p-4 bg-white flex flex-col items-center text-center">
+                <div class="w-12 h-3 bg-slate-600 rounded-full mb-3 shadow-sm flex items-center justify-center text-[8px] text-white font-bold">≪ ≪</div>
+                <h4 class="font-black text-sm text-slate-800">輸送帶</h4>
+                <span class="text-[11px] text-slate-500 font-bold">左右強制推移</span>
+            </div>
+
+            <!-- Spring -->
+            <div class="light-card rounded-2xl p-4 bg-white flex flex-col items-center text-center">
+                <div class="w-12 h-3 bg-pink-500 rounded-full mb-3 shadow-sm flex items-center justify-center text-[8px] text-white font-bold">▲ ▲</div>
+                <h4 class="font-black text-sm text-slate-800">彈簧階梯</h4>
+                <span class="text-[11px] text-slate-500 font-bold">高空彈跳飛躍</span>
+            </div>
+
+            <!-- Fragile -->
+            <div class="light-card rounded-2xl p-4 bg-white flex flex-col items-center text-center">
+                <div class="w-12 h-3 bg-orange-500 rounded-full mb-3 shadow-sm flex items-center justify-center text-[8px] text-white font-bold">⚡</div>
+                <h4 class="font-black text-sm text-slate-800">易碎階梯</h4>
+                <span class="text-[11px] text-slate-500 font-bold">踩踏即刻碎裂</span>
+            </div>
+
+            <!-- Spike -->
+            <div class="light-card rounded-2xl p-4 bg-white flex flex-col items-center text-center">
+                <div class="w-12 h-3 bg-red-500 rounded-full mb-3 shadow-sm flex items-center justify-center text-[8px] text-white font-bold">▲▲▲</div>
+                <h4 class="font-black text-sm text-slate-800">尖刺階梯</h4>
+                <span class="text-[11px] text-slate-500 font-bold">踩中扣減 HP</span>
+            </div>
+
+            <!-- Heart -->
+            <div class="light-card rounded-2xl p-4 bg-white flex flex-col items-center text-center">
+                <div class="w-12 h-3 bg-emerald-500 rounded-full mb-3 shadow-sm flex items-center justify-center text-[8px] text-white font-bold">❤️</div>
+                <h4 class="font-black text-sm text-slate-800">愛心階梯</h4>
+                <span class="text-[11px] text-slate-500 font-bold">恢復主角體力</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: EMBEDDED GAME PLATFORM -->
+    <section id="play" class="py-16 px-4 bg-slate-200/50 relative">
+        <div class="max-w-4xl mx-auto flex flex-col items-center">
+            
+            <div class="text-center mb-8">
+                <span class="text-amber-500 text-4xl mb-1 block animate-bounce"><i class="fa-solid fa-gamepad"></i></span>
+                <h2 class="text-3xl sm:text-4xl font-black mb-1 text-slate-900">遊戲平台試玩</h2>
+                <p class="text-slate-500 font-bold text-sm">直接在下方操控體驗！探索屬於你的天氣結局</p>
+            </div>
+
+            <!-- Embedded Game Canvas Frame -->
+            <div class="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 relative">
+                
+                <!-- Status Top Bar -->
+                <div class="bg-slate-800/90 p-3 flex justify-between items-center text-white border-b border-slate-700">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-heart text-red-500 text-lg animate-pulse"></i>
+                        <div class="w-24 bg-slate-700 rounded-full h-3 overflow-hidden p-0.5 border border-slate-600">
+                            <div id="hp-fill" class="bg-gradient-to-r from-red-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 100%;"></div>
+                        </div>
+                        <span id="hp-text" class="text-xs font-black">10/10</span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleAudio()" id="sound-btn" class="text-slate-300 hover:text-white text-xs px-2 py-1 bg-slate-700 rounded-lg">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                        <div class="text-right">
+                            <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold block">深度</span>
+                            <span class="text-base font-black text-amber-300" id="floor-display">B 1 F</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canvas -->
+                <canvas id="gameCanvas" class="w-full h-[400px] sm:h-[440px] block"></canvas>
+
+                <!-- Start Overlay -->
+                <div id="start-overlay" class="absolute inset-0 bg-slate-900/95 backdrop-blur-md z-30 flex flex-col items-center justify-center p-6 text-center text-white">
+                    <div class="w-20 h-20 rounded-2xl bg-amber-400/20 border-2 border-amber-400 flex items-center justify-center text-4xl mb-3 animate-float">
+                        👦
+                    </div>
+                    <h3 class="text-2xl font-black mb-2 text-amber-300">小朋友下樓梯：天氣篇</h3>
+                    <p class="text-xs text-slate-300 max-w-xs mb-6 font-semibold">
+                        鍵盤 ← / → 或下方按鈕控制方向。<br>
+                        <strong class="text-amber-300">「死亡地點的天氣即為你的故事結局！」</strong>
+                    </p>
+                    
+                    <button onclick="startGame()" class="px-8 py-3.5 bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-white font-extrabold text-lg rounded-2xl shadow-xl hover:shadow-orange-400/30 active:scale-95 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> 開始冒險
+                    </button>
+                </div>
+
+                <!-- Custom Weather Game Over Ending Card Overlay -->
+                <div id="gameover-overlay" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md z-30 flex flex-col items-center justify-center p-5 text-center text-white hidden">
+                    <div id="ending-card" class="w-full max-w-xs rounded-3xl p-5 shadow-2xl border-2 transition-all duration-500 transform scale-95 flex flex-col items-center bg-white text-slate-800">
+                        <div id="ending-icon" class="text-5xl mb-2 animate-bounce">☀️</div>
+                        <div class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400" id="ending-subtitle">WEATHER ENDING STORY</div>
+                        <h3 class="text-xl font-black mb-1 text-slate-900" id="ending-title">晴天的璀璨終局</h3>
+                        <div class="text-xs font-bold text-amber-600 mb-3" id="ending-location">死於：☀️ 晴天區 B12</div>
+
+                        <div class="w-full bg-slate-50 rounded-2xl p-3 border border-slate-200 mb-4 text-left">
+                            <p class="text-xs leading-relaxed text-slate-600 font-bold italic" id="ending-story-text">
+                                「陽光將你的身影拉得好長好長...」
+                            </p>
+                        </div>
+
+                        <button onclick="startGame()" class="w-full py-3 bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-white font-extrabold text-sm rounded-2xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> 再試一次
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Touch Controls (Mobile) -->
+            <div class="w-full max-w-md mt-4 grid grid-cols-2 gap-3">
+                <button id="btn-left" class="bg-white hover:bg-slate-100 active:bg-slate-200 text-slate-800 py-4 rounded-2xl flex items-center justify-center text-2xl border border-slate-300 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button id="btn-right" class="bg-white hover:bg-slate-100 active:bg-slate-200 text-slate-800 py-4 rounded-2xl flex items-center justify-center text-2xl border border-slate-300 shadow-md">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 px-4 text-center text-slate-400 text-xs bg-white border-t border-slate-200">
+        <p>☀️ Weather Staircase Adventure Showcase Platform | Clean Light Theme</p>
+    </footer>
+
+    <!-- GAME ENGINE LOGIC -->
+    <script>
+        // Web Audio Synthesizer
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioCtx();
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('sound-btn');
+            btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+        }
+
+        function playSound(type) {
+            if (!audioCtx || !soundEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                const now = audioCtx.currentTime;
+
+                if (type === 'spring') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now); osc.stop(now + 0.2);
+                } else if (type === 'hurt') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(160, now);
+                    osc.frequency.linearRampToValueAtTime(70, now + 0.15);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.start(now); osc.stop(now + 0.15);
+                } else if (type === 'heal') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(880, now + 0.1);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now); osc.stop(now + 0.2);
+                }
+            } catch(e) {}
+        }
+
+        const WEATHER_ZONES = {
+            sunny: { name: '晴天區', icon: '☀️', minFloor: 1, maxFloor: 15, bgColor: '#fef3c7', skyColor: '#f59e0b', platformColor: '#f59e0b', endingTitle: '晴天的璀璨日光', endingSubtitle: 'SUNNY ENDING STORY', endingCardBg: 'border-amber-300 bg-amber-50 text-slate-800', storyText: '「溫暖的陽光穿透洞口，照亮了你停留的腳步。雖然冒險暫時停在晴空之下，但太陽的熱度會永遠為你保留希望的記憶。」' },
+            cloudy: { name: '陰天區', icon: '☁️', minFloor: 16, maxFloor: 35, bgColor: '#e2e8f0', skyColor: '#64748b', platformColor: '#64748b', endingTitle: '陰天的微風沉思', endingSubtitle: 'CLOUDY ENDING STORY', endingCardBg: 'border-slate-300 bg-slate-50 text-slate-800', storyText: '「雲霧輕輕環繞著你，擋住了強烈的日光。在這片安詳沉靜的陰天谷地裡，你學會了休憩，等待下一次起飛的風浪。」' },
+            rainy: { name: '雨天區', icon: '🌧️', minFloor: 36, maxFloor: 60, bgColor: '#dbeafe', skyColor: '#2563eb', platformColor: '#3b82f6', endingTitle: '雨天的庇護奏鳴曲', endingSubtitle: 'RAINY ENDING STORY', endingCardBg: 'border-blue-300 bg-blue-50 text-slate-800', storyText: '「淅淅瀝瀝的雨聲宛如溫柔的催眠曲。你停留在這個雨天庇護所，雨水沖刷掉了一路的疲憊，帶來最純淨的滋潤。」' },
+            snowy: { name: '雪天區', icon: '❄️', minFloor: 61, maxFloor: 90, bgColor: '#e0f2fe', skyColor: '#0284c7', platformColor: '#0ea5e9', endingTitle: '雪天的純白誓約', endingSubtitle: 'SNOWY ENDING STORY', endingCardBg: 'border-cyan-300 bg-cyan-50 text-slate-800', storyText: '「漫天飛舞的雪花悄悄覆蓋了一切足蹟。雪天給予了大地最溫柔的包容，讓你的故事凍結成永不褪色的水晶。」' },
+            starry: { name: '星空區', icon: '🌌', minFloor: 91, maxFloor: Infinity, bgColor: '#f3e8ff', skyColor: '#7c3aed', platformColor: '#8b5cf6', endingTitle: '星空的永恆夢境', endingSubtitle: 'STARRY ENDING STORY', endingCardBg: 'border-purple-300 bg-purple-50 text-slate-800', storyText: '「你來到了最深沉的星空極境！無數璀璨的星辰在身旁閃爍，你的名字已化為星宿，成為這本繪本中最傳奇的篇章。」' }
+        };
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        let isGameRunning = false;
+        let floor = 1;
+        let player = { x: 0, y: 0, width: 24, height: 30, vx: 0, vy: 0, speed: 5, hp: 10, maxHp: 10, facingRight: true };
+        let platforms = [];
+        let keys = { left: false, right: false };
+        let platformSpawnTimer = 0;
+
+        function getCurrentZone(f) {
+            if (f <= 15) return WEATHER_ZONES.sunny;
+            if (f <= 35) return WEATHER_ZONES.cloudy;
+            if (f <= 60) return WEATHER_ZONES.rainy;
+            if (f <= 90) return WEATHER_ZONES.snowy;
+            return WEATHER_ZONES.starry;
+        }
+
+        function startGame() {
+            initAudio();
+            document.getElementById('start-overlay').classList.add('hidden');
+            document.getElementById('gameover-overlay').classList.add('hidden');
+
+            floor = 1;
+            player.hp = 10;
+            player.x = canvas.width / 2 - player.width / 2;
+            player.y = 60;
+            player.vx = 0;
+            player.vy = 0;
+            platforms = [];
+
+            platforms.push({ x: canvas.width / 2 - 40, y: 160, width: 80, height: 12, type: 'normal' });
+
+            isGameRunning = true;
+            gameLoop();
+        }
+
+        function createPlatform() {
+            const pWidth = 70 + Math.random() * 20;
+            const px = Math.random() * (canvas.width - pWidth);
+            const py = canvas.height + 10;
+
+            const rand = Math.random();
+            let type = 'normal';
+            if (rand < 0.4) type = 'normal';
+            else if (rand < 0.55) type = 'conveyor_left';
+            else if (rand < 0.7) type = 'conveyor_right';
+            else if (rand < 0.8) type = 'spring';
+            else if (rand < 0.9) type = 'spike';
+            else type = 'heal';
+
+            platforms.push({ x: px, y: py, width: pWidth, height: 12, type: type });
+        }
+
+        function updateGame() {
+            if (keys.left) { player.vx = -player.speed; player.facingRight = false; }
+            else if (keys.right) { player.vx = player.speed; player.facingRight = true; }
+            else player.vx = 0;
+
+            player.x += player.vx;
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+            player.vy += 0.35;
+            player.y += player.vy;
+
+            platformSpawnTimer++;
+            if (platformSpawnTimer > 60) {
+                createPlatform();
+                platformSpawnTimer = 0;
+            }
+
+            const scrollSpeed = 1.5 + Math.min(2, floor * 0.02);
+
+            for (let i = platforms.length - 1; i >= 0; i--) {
+                let p = platforms[i];
+                p.y -= scrollSpeed;
+
+                if (player.vy >= 0 && player.x + player.width > p.x && player.x < p.x + p.width && player.y + player.height >= p.y && player.y + player.height <= p.y + p.height + player.vy + scrollSpeed) {
+                    player.y = p.y - player.height;
+                    player.vy = 0;
+
+                    if (p.type === 'conveyor_left') player.x -= 2;
+                    else if (p.type === 'conveyor_right') player.x += 2;
+                    else if (p.type === 'spring') { player.vy = -10; playSound('spring'); }
+                    else if (p.type === 'spike') { player.hp -= 3; player.vy = -4; playSound('hurt'); if (player.hp <= 0) triggerGameOver(); }
+                    else if (p.type === 'heal') { player.hp = Math.min(player.maxHp, player.hp + 2); playSound('heal'); p.type = 'normal'; }
+                }
+
+                if (p.y + p.height < 0) {
+                    platforms.splice(i, 1);
+                    floor++;
+                    document.getElementById('floor-display').innerText = `B ${floor} F`;
+                }
+            }
+
+            if (player.y <= 20) {
+                player.hp -= 4;
+                player.vy = 4;
+                playSound('hurt');
+                if (player.hp <= 0) triggerGameOver();
+            }
+
+            if (player.y > canvas.height + 20) {
+                player.hp = 0;
+                triggerGameOver();
+            }
+
+            document.getElementById('hp-fill').style.width = `${(player.hp / player.maxHp) * 100}%`;
+            document.getElementById('hp-text').innerText = `${player.hp}/${player.maxHp}`;
+        }
+
+        function renderGame() {
+            const zone = getCurrentZone(floor);
+
+            // Light Sky BG
+            ctx.fillStyle = zone.bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Spikes
+            ctx.fillStyle = '#ef4444';
+            for (let x = 0; x < canvas.width; x += 15) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0); ctx.lineTo(x + 7.5, 18); ctx.lineTo(x + 15, 0); ctx.fill();
+            }
+
+            // Platforms
+            platforms.forEach(p => {
+                if (p.type === 'normal') ctx.fillStyle = zone.platformColor;
+                else if (p.type.includes('conveyor')) ctx.fillStyle = '#64748b';
+                else if (p.type === 'spring') ctx.fillStyle = '#ec4899';
+                else if (p.type === 'spike') ctx.fillStyle = '#ef4444';
+                else if (p.type === 'heal') ctx.fillStyle = '#10b981';
+
+                ctx.fillRect(p.x, p.y, p.width, p.height);
+            });
+
+            // Player Boy
+            ctx.save();
+            ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
+            if (!player.facingRight) ctx.scale(-1, 1);
+            ctx.fillStyle = '#2563eb'; ctx.fillRect(-7, -3, 14, 15);
+            ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(0, -9, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.restore();
+        }
+
+        function gameLoop() {
+            if (!isGameRunning) return;
+            updateGame();
+            renderGame();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function triggerGameOver() {
+            isGameRunning = false;
+            const zone = getCurrentZone(floor);
+
+            const card = document.getElementById('ending-card');
+            card.className = `w-full max-w-xs rounded-3xl p-5 shadow-2xl border-2 transition-all duration-500 transform flex flex-col items-center ${zone.endingCardBg}`;
+
+            document.getElementById('ending-icon').innerText = zone.icon;
+            document.getElementById('ending-title').innerText = zone.endingTitle;
+            document.getElementById('ending-subtitle').innerText = zone.endingSubtitle;
+            document.getElementById('ending-location').innerText = `死於：${zone.icon} ${zone.name} B${floor}F`;
+            document.getElementById('ending-story-text').innerText = zone.storyText;
+
+            document.getElementById('gameover-overlay').classList.remove('hidden');
+        }
+
+        // Controls
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
+            if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
+        });
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
+            if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
+        });
+
+        const btnL = document.getElementById('btn-left');
+        const btnR = document.getElementById('btn-right');
+        btnL.addEventListener('mousedown', () => keys.left = true);
+        btnL.addEventListener('mouseup', () => keys.left = false);
+        btnL.addEventListener('touchstart', (e) => { e.preventDefault(); keys.left = true; });
+        btnL.addEventListener('touchend', (e) => { e.preventDefault(); keys.left = false; });
+        btnR.addEventListener('mousedown', () => keys.right = true);
+        btnR.addEventListener('mouseup', () => keys.right = false);
+        btnR.addEventListener('touchstart', (e) => { e.preventDefault(); keys.right = true; });
+        btnR.addEventListener('touchend', (e) => { e.preventDefault(); keys.right = false; });
+    </script>
+</body>
+    <!-- SECTION 5: PLAYABLE GAME PLATFORM -->
+    <section id="play" class="py-16 px-4 relative">
+        <div class="max-w-4xl mx-auto flex flex-col items-center">
+            
+            <div class="text-center mb-8">
+                <span class="text-orange-500 text-4xl mb-2 block animate-bounce"><i class="fa-solid fa-gauge-high"></i></span>
+                <h2 class="text-3xl sm:text-4xl font-black mb-1 text-slate-900">3 倍速天氣試玩平台</h2>
+                <p class="text-slate-500 text-xs sm:text-sm font-bold">快速反應！樓梯向上速度為原本的 300%！</p>
+            </div>
+
+            <!-- Game Frame -->
+            <div class="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 relative">
+                
+                <!-- Game Header Status Bar -->
+                <div class="bg-slate-800 p-3 flex justify-between items-center text-white border-b border-slate-700">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-heart text-red-500 text-lg animate-pulse"></i>
+                        <div class="w-24 bg-slate-900 rounded-full h-3 overflow-hidden p-0.5 border border-slate-600">
+                            <div id="hp-fill" class="bg-gradient-to-r from-red-500 to-emerald-400 h-full rounded-full transition-all duration-200" style="width: 100%;"></div>
+                        </div>
+                        <span id="hp-text" class="text-xs font-black">10/10</span>
+                    </div>
+
+                    <div class="text-right flex items-center gap-3">
+                        <span class="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-[10px] font-black rounded-md border border-orange-500/30">⚡ 3X Speed</span>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold block">深度</span>
+                            <span class="text-base font-black text-amber-300" id="floor-display">B 1 F</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canvas -->
+                <canvas id="gameCanvas" class="w-full h-[430px] block"></canvas>
+
+                <!-- Start Overlay -->
+                <div id="start-overlay" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-30 flex flex-col items-center justify-center p-6 text-center text-white">
+                    <div class="w-20 h-20 rounded-2xl bg-amber-400/20 border-2 border-amber-400 flex items-center justify-center text-4xl mb-3 animate-float">
+                        👦
+                    </div>
+                    <h3 class="text-2xl font-black mb-1 text-amber-300">天氣下樓梯 (3X倍速)</h3>
+                    <p class="text-xs text-slate-300 max-w-xs mb-6 font-semibold">
+                        使用 ← / → 控制移動。<br>
+                        <strong class="text-orange-400">樓梯上升速度加快為 3 倍！考驗您的極限反應！</strong>
+                    </p>
+                    
+                    <button onclick="startGame()" class="px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-extrabold text-lg rounded-2xl shadow-xl active:scale-95 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> 開始挑戰 3 倍速
+                    </button>
+                </div>
+
+                <!-- Game Over Weather Story Ending Overlay -->
+                <div id="gameover-overlay" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md z-30 flex flex-col items-center justify-center p-5 text-center text-white hidden">
+                    <div id="ending-card" class="w-full max-w-xs rounded-3xl p-5 shadow-2xl border-2 transition-all duration-500 transform scale-95 flex flex-col items-center">
+                        <div id="ending-icon" class="text-5xl mb-2 animate-bounce">☀️</div>
+                        <div class="text-[10px] font-extrabold uppercase tracking-widest text-white/80" id="ending-subtitle">故事終章</div>
+                        <h3 class="text-xl font-black mb-1" id="ending-title">晴天的璀璨終局</h3>
+                        <div class="text-xs font-bold text-amber-300 mb-3" id="ending-location">死於：☀️ 晴天區 B12</div>
+
+                        <div class="w-full bg-black/40 rounded-2xl p-3 border border-white/10 mb-4 text-left">
+                            <p class="text-xs leading-relaxed text-slate-200 italic" id="ending-story-text">
+                                「陽光將你的身影拉得好長好長...」
+                            </p>
+                        </div>
+
+                        <button onclick="startGame()" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold text-sm rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> 再試一次 3 倍速
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div class="w-full max-w-md mt-4 grid grid-cols-2 gap-3">
+                <button id="btn-left" class="glass-card hover:bg-white active:bg-amber-100 text-slate-800 py-4 rounded-2xl flex items-center justify-center text-2xl border border-slate-200 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button id="btn-right" class="glass-card hover:bg-white active:bg-amber-100 text-slate-800 py-4 rounded-2xl flex items-center justify-center text-2xl border border-slate-200 shadow-md">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GAME LOGIC SCRIPT (With 3x Speed Modification) -->
+    <script>
+        // ... existing audio code ...
+
+        function updateGame() {
+            if (keys.left) { player.vx = -player.speed; player.facingRight = false; }
+            else if (keys.right) { player.vx = player.speed; player.facingRight = true; }
+            else player.vx = 0;
+
+            player.x += player.vx;
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+            player.vy += 0.35;
+            player.y += player.vy;
+
+            // Platform Spawn Rate increased for 3x speed flow
+            platformSpawnTimer++;
+            if (platformSpawnTimer > 22) { // Accelerated spawn interval for 3x speed
+                createPlatform();
+                platformSpawnTimer = 0;
+            }
+
+            // --- 3X SPEED MODIFICATION ---
+            // Base speed multiplied by 3 (Original: 1.5 + floor*0.02 -> New: 4.5 + floor*0.06)
+            const scrollSpeed = (1.5 + Math.min(2, floor * 0.02)) * 3.0;
+
+            for (let i = platforms.length - 1; i >= 0; i--) {
+                let p = platforms[i];
+                p.y -= scrollSpeed;
+
+                if (player.vy >= 0 && player.x + player.width > p.x && player.x < p.x + p.width && player.y + player.height >= p.y && player.y + player.height <= p.y + p.height + player.vy + scrollSpeed) {
+                    player.y = p.y - player.height;
+                    player.vy = 0;
+
+                    if (p.type === 'conveyor_left') player.x -= 3;
+                    else if (p.type === 'conveyor_right') player.x += 3;
+                    else if (p.type === 'spring') { player.vy = -12; playSound('spring'); }
+                    else if (p.type === 'spike') { player.hp -= 3; player.vy = -4; playSound('hurt'); if (player.hp <= 0) triggerGameOver(); }
+                    else if (p.type === 'heal') { player.hp = Math.min(player.maxHp, player.hp + 2); playSound('heal'); p.type = 'normal'; }
+                }
+
+                if (p.y + p.height < 0) {
+                    platforms.splice(i, 1);
+                    floor++;
+                    document.getElementById('floor-display').innerText = `B ${floor} F`;
+                }
+            }
+
+            // Top spike damage
+            if (player.y <= 20) {
+                player.hp -= 4;
+                player.vy = 4;
+                playSound('hurt');
+                if (player.hp <= 0) triggerGameOver();
+            }
+
+            // Bottom pit death
+            if (player.y > canvas.height + 20) {
+                player.hp = 0;
+                triggerGameOver();
+            }
+
+            // Update UI
+            document.getElementById('hp-fill').style.width = `${(player.hp / player.maxHp) * 100}%`;
+            document.getElementById('hp-text').innerText = `${player.hp}/${player.maxHp}`;
+        }
+
+        // ... existing render and game loop code ...
+    </script>
+</body>
+</html>
